@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 import me.WiebeHero.Display.Display;
 import me.WiebeHero.Input.MouseManager;
-import me.WiebeHero.Input.Listeners.HoverListener;
-import me.WiebeHero.Input.Listeners.PressListener;
+import me.WiebeHero.Input.Listeners.MouseListeners.MouseHoverListener;
+import me.WiebeHero.Input.Listeners.MouseListeners.MousePressListener;
 import me.WiebeHero.Sounds.Sounds;
 import me.WiebeHero.UI.UIBox;
 import me.WiebeHero.UI.UIManager;
@@ -38,7 +38,7 @@ public class MenuState extends State{
 		UIImageButton newButton = new UIImageButton(64.5D, 43.75D, 100, 50, this.screen, Assets.new_icon);
 		newButton.addAnimations(new MovementAnimation(16, 38, 3F, 0F, AnimOption.PAUSED), new SizeAnimation(30, 5, 2, 1, AnimOption.PAUSED, AnimOption.HOVER_TRIGGER));
 		newButton.addListeners(
-		new PressListener() {
+		new MousePressListener() {
 
 			@Override
 			public void listen() {
@@ -49,10 +49,11 @@ public class MenuState extends State{
 					StateManager stateManager = StateManager.getInstance();
 					stateManager.setState(GameState.class);
 					stateManager.getState().initMouseManager();
+					stateManager.getState().initKeyManager();
 				}
 			}
 			
-		}, new HoverListener() {
+		}, new MouseHoverListener() {
 			
 			@Override
 			public void listen() {
@@ -69,7 +70,7 @@ public class MenuState extends State{
 		UIImageButton loadButton = new UIImageButton(64.5D, 55.5D, 100, 50, screen, Assets.load_icon);
 		loadButton.addAnimations(new MovementAnimation(16, 38, 3F, 0F, AnimOption.PAUSED), new SizeAnimation(30, 5, 2, 1, AnimOption.PAUSED, AnimOption.HOVER_TRIGGER));
 		loadButton.addListeners(
-		new PressListener() {
+		new MousePressListener() {
 			
 			@Override
 			public void listen() {
@@ -84,7 +85,7 @@ public class MenuState extends State{
 			}
 			
 		}, 
-		new HoverListener() {
+		new MouseHoverListener() {
 			
 			@Override
 			public void listen() {
@@ -99,7 +100,7 @@ public class MenuState extends State{
 		
 		UIImageButton playButton = new UIImageButton(50.0D, 49.5D, 256, 128, screen, Assets.play_icon);
 		playButton.addAnimations(new SpriteAnimation(25, Assets.play_icon, AnimOption.PAUSED, AnimOption.HOVER_TRIGGER));
-		playButton.addListeners(new PressListener() {
+		playButton.addListeners(new MousePressListener() {
 			
 			@Override
 			public void listen() {
@@ -115,7 +116,7 @@ public class MenuState extends State{
 		UIImageButton settingsButton = new UIImageButton(50.0D, 79.5D, 256, 128, screen, Assets.settings_icon);
 		settingsButton.addAnimations(new SpriteAnimation(25, Assets.settings_icon, AnimOption.PAUSED, AnimOption.HOVER_TRIGGER));
 		settingsButton.addListeners(
-		new PressListener() {
+		new MousePressListener() {
 			
 			@Override
 			public void listen() {
@@ -123,6 +124,7 @@ public class MenuState extends State{
 				StateManager stateManager = StateManager.getInstance();
 				stateManager.setState(SettingsState.class);
 				stateManager.getState().initMouseManager();
+				stateManager.getState().initKeyManager();
 			}
 			
 		});
@@ -139,6 +141,11 @@ public class MenuState extends State{
 	}
 	
 	@Override
+	public void initKeyManager() {
+		
+	}
+	
+	@Override
 	public void tick() {
 		this.uiManager.tick();
 	}
@@ -149,5 +156,4 @@ public class MenuState extends State{
 		g.fillRect(0, 0, 1930, 1080);
 		this.uiManager.render(g);
 	}
-
 }

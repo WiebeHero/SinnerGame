@@ -61,5 +61,10 @@ public class GameState extends State{
 	public void initMouseManager() {
 		this.mouseManager.setUIManager(this.uiManager);
 	}
+	
+	@Override
+	public void initKeyManager() {
+		this.keyManager.setUIManager(this.uiManager);
+	}
 
 }

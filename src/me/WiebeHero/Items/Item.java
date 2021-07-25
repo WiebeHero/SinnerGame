@@ -8,7 +8,6 @@ import me.WiebeHero.Entities.Entity;
 import me.WiebeHero.Entities.EntityManager;
 import me.WiebeHero.Entities.Creatures.Player;
 import me.WiebeHero.Worlds.World;
-import me.WiebeHero.gfx.Assets;
 import me.WiebeHero.gfx.CameraPosition;
 
 public class Item {

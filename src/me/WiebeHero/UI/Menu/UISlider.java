@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import me.WiebeHero.Input.CustomMouseManager;
-import me.WiebeHero.Input.MouseManager;
-import me.WiebeHero.Input.Listeners.HoverListener;
 import me.WiebeHero.Input.Listeners.Listener;
-import me.WiebeHero.Input.Listeners.PressListener;
-import me.WiebeHero.Input.Listeners.ReleaseListener;
 import me.WiebeHero.UI.UIObject;
 import me.WiebeHero.gfx.Screen;
 
@@ -98,21 +94,12 @@ public class UISlider extends UIObject{
 
 	@Override
 	public void onMouseHover() {
-		for(Listener listener : this.listeners) {
-			if(listener instanceof HoverListener) {
-				listener.listen();
-			}
-		}
+		
 	}
 
 	@Override
 	public void onMousePress() {
 		this.update();
-		for(Listener listener : this.listeners) {
-			if(listener instanceof PressListener) {
-				listener.listen();
-			}
-		}
 	}
 	
 	@Override
@@ -129,11 +116,6 @@ public class UISlider extends UIObject{
 				double diff = (double)(points[i] - x) / (double)width * 100.00;
 				pivot.setMarginX(diff);
 				break;
-			}
-		}
-		for(Listener listener : this.listeners) {
-			if(listener instanceof ReleaseListener) {
-				listener.listen();
 			}
 		}
 	}
@@ -168,6 +150,12 @@ public class UISlider extends UIObject{
 	
 	@Override
 	public void onKeyRelease(int key) {
+		
+	}
+	
+	@Override
+	public void onKeyType(int key) {
+		// TODO Auto-generated method stub
 		
 	}
 	

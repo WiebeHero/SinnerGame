@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import me.WiebeHero.Display.Display;
+import me.WiebeHero.Input.KeyControls;
+import me.WiebeHero.Input.KeyManager;
 import me.WiebeHero.Input.MouseManager;
-import me.WiebeHero.Input.Listeners.ReleaseListener;
+import me.WiebeHero.Input.Listeners.MouseListeners.MouseReleaseListener;
 import me.WiebeHero.Settings.Settings;
 import me.WiebeHero.UI.UIBox;
 import me.WiebeHero.UI.UIManager;
@@ -19,20 +21,22 @@ public class SettingsState extends State{
 	
 	private UIManager uiManager;
 	private MouseManager mouseManager;
+	private KeyManager keyManager;
 	private Display display;
 	private Screen screen;
 	private Settings settings;
 	
-	public SettingsState(Display display, Screen screen, MouseManager mouseManager, Settings settings) {		
+	public SettingsState(Display display, Screen screen, MouseManager mouseManager, KeyManager keyManager, Settings settings) {		
 		this.display = display;
 		this.screen = screen;
 		this.mouseManager = mouseManager;
+		this.keyManager = keyManager;
 		this.settings = settings;
 		this.uiManager = new UIManager(this.display);
 		UIBox menuBox = new UIBox(50.0D, 50.0D, 350, 450, this.screen);
 		UIPivot pivot = new UIPivot(20, 30, this.screen, Color.BLUE);
 		UISlider slider = new UISlider(pivot, 40.0D, 30.0D, 200, 18, this.screen, 100, (int)this.settings.getSoundControls().getVolume(), true);
-		slider.addListeners(new ReleaseListener() {
+		slider.addListeners(new MouseReleaseListener() {
 
 			@Override
 			public void listen() {
@@ -43,13 +47,31 @@ public class SettingsState extends State{
 		menuBox.addChild(slider);
 		UIText textVolume = new UIText(90.0D, 31.75D, screen, "Volume");
 		menuBox.addChild(textVolume);
-		UIInputRecorder recorder = new UIInputRecorder(50.0, 60.0, 25, 25, screen, this.settings, Color.BLUE) {
+		UIInputRecorder upRecorder = new UIInputRecorder(50.0, 60.0, 25, 25, screen, this.settings.getKeyboardControls(), Color.BLUE, KeyControls.UP) {
 			@Override
 			public void recorded(int key) { 
 				settings.getKeyboardControls().setUp(key);
 			}
 		};
-		menuBox.addChild(recorder);
+		UIInputRecorder downRecorder = new UIInputRecorder(50.0, 67.5, 25, 25, screen, this.settings.getKeyboardControls(), Color.BLUE, KeyControls.DOWN) {
+			@Override
+			public void recorded(int key) { 
+				settings.getKeyboardControls().setDown(key);
+			}
+		};
+		UIInputRecorder leftRecorder = new UIInputRecorder(40.0, 67.5, 25, 25, screen, this.settings.getKeyboardControls(), Color.BLUE, KeyControls.LEFT) {
+			@Override
+			public void recorded(int key) { 
+				settings.getKeyboardControls().setLeft(key);
+			}
+		};
+		UIInputRecorder rightRecorder = new UIInputRecorder(60.0, 67.5, 25, 25, screen, this.settings.getKeyboardControls(), Color.BLUE, KeyControls.RIGHT) {
+			@Override
+			public void recorded(int key) { 
+				settings.getKeyboardControls().setRight(key);
+			}
+		};
+		menuBox.addChildren(upRecorder, downRecorder, leftRecorder, rightRecorder);
 		this.uiManager.addObject(menuBox);
 	}
 
@@ -68,6 +90,11 @@ public class SettingsState extends State{
 	@Override
 	public void initMouseManager() {
 		this.mouseManager.setUIManager(this.uiManager);
+	}
+	
+	@Override
+	public void initKeyManager() {
+		this.keyManager.setUIManager(this.uiManager);
 	}
 	
 }

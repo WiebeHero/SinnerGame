@@ -111,6 +111,11 @@ public class UIText extends UIObject{
 		
 	}
 	
+	@Override
+	public void onKeyType(int key) {
+		
+	}
+	
 	public void setText(String text) {
 		this.text = text;
 	}

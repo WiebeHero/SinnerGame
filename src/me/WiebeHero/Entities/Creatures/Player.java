@@ -8,8 +8,8 @@ import me.WiebeHero.Entities.Entity;
 import me.WiebeHero.Input.CustomKeyManager;
 import me.WiebeHero.UI.Game.Inventory.UIInventory;
 import me.WiebeHero.Worlds.World;
-import me.WiebeHero.gfx.Assets;
 import me.WiebeHero.gfx.GameCamera;
+import me.WiebeHero.gfx.SinnerAsset;
 import me.WiebeHero.gfx.Animations.AnimOption;
 import me.WiebeHero.gfx.Animations.SpriteAnimation;
 
@@ -18,6 +18,7 @@ public class Player extends Creature{
 	//Animations
 	private SpriteAnimation animDown, animUp, animLeft, animRight;
 	private SpriteAnimation slashExample;
+	private SinnerAsset asset;
 	private int attackX, attackY;
 	private int normalSpeed, sprintSpeed;
 	private boolean sprinting;
@@ -29,8 +30,9 @@ public class Player extends Creature{
 	private GameCamera gameCamera;
 	private CustomKeyManager keyManager;
 	
-	public Player(float x, float y, World world, GameCamera gameCamera, CustomKeyManager keyManager) {
+	public Player(float x, float y, World world, GameCamera gameCamera, CustomKeyManager keyManager, SinnerAsset asset) {
 		super(x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, world);
+		this.asset = asset;
 		this.gameCamera = gameCamera;
 		this.gameCamera.centerOnEntity(this);
 		this.keyManager = keyManager;
@@ -44,6 +46,10 @@ public class Player extends Creature{
 		this.normalSpeed = 150;
 		this.sprintSpeed = 125;
 		this.sprinting = false;
+		BufferedImage[] player_down = this.asset.getImageRange(0, 3);
+		BufferedImage[] player_up = this.asset.getImageRange(4, 7);
+		BufferedImage[] player_left = this.asset.getImageRange(8, 11);
+		BufferedImage[] player_right = this.asset.getImageRange(12, 15);
 		//Animations
 		this.animDown = new SpriteAnimation(this.normalSpeed, Assets.player_down, AnimOption.LOOP);
 		this.animUp = new SpriteAnimation(this.normalSpeed, Assets.player_up, AnimOption.LOOP);

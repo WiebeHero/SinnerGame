@@ -20,7 +20,7 @@ public class SpriteSheet {
 	 * @return BufferedImage[]
 	 */
 	
-	public BufferedImage[] completeCrop(int columns, int rows) {
+	public BufferedImage[] completeCrop(byte columns, byte rows) {
 		int imageWidth = this.sheet.getWidth();
 		int imageHeight = this.sheet.getHeight();
 		int width = imageWidth / columns;
@@ -55,6 +55,26 @@ public class SpriteSheet {
 				y++;
 			}
 			crops[i] = this.sheet.getSubimage(width * x, height * y, width, height);
+			x++;
+		}
+		return crops;
+	}
+	
+	public BufferedImage[] completeCrop(int spriteWidth, int spriteHeight) {
+		int imageWidth = this.sheet.getWidth();
+		int imageHeight = this.sheet.getHeight();
+		byte columns = (byte) (imageWidth / spriteWidth);
+		byte rows = (byte) (imageHeight / spriteHeight);
+		int totalImages = columns * rows;
+		BufferedImage[] crops = new BufferedImage[totalImages];
+		int x = 0;
+		int y = 0;
+		for(int i = 0; i < totalImages; i++) {
+			if(x == columns) {
+				x = 0;
+				y++;
+			}
+			crops[i] = this.sheet.getSubimage(spriteWidth * x, spriteHeight * y, spriteWidth, spriteHeight);
 			x++;
 		}
 		return crops;
